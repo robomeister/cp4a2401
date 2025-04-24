@@ -1,0 +1,4 @@
+Deploy only ONE of the deployments in this directory.
+
+
+Depending on which one you deploy, it could take between 1 and 3 hours to complete.
