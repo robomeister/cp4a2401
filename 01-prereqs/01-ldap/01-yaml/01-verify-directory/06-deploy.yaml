@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verify
+  labels:
+    app: verify
+spec:
+  selector:
+    matchLabels:
+      app: verify
+  template: 
+    metadata:
+      labels:
+        app: verify
+    spec:
+      serviceAccountName: verify
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70
+        fsGroup: 70
+      containers:
+      - name: verify
+        image: icr.io/isvd/verify-directory-server:latest
+        ports:
+        - containerPort: 9389
+        env:
+        - name: YAML_CONFIG_FILE
+          value: /var/isvd/config/config.yaml  
+        livenessProbe:
+          exec:
+            command:
+            - /sbin/health_check.sh 
+            - livenessProbe
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - /sbin/health_check.sh
+          initialDelaySeconds: 5
+          periodSeconds: 10 
+        livenessProbe:
+          exec:
+            command:
+            - /sbin/health_check.sh 
+            - startupProbe
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: config-volume
+          mountPath: /var/isvd/config
+        - name: data-volume
+          mountPath: /var/isvd/data
+      volumes:
+      - name: config-volume
+        configMap:
+          name: verify
+      - name: data-volume 
+        persistentVolumeClaim: 
+          claimName: verify

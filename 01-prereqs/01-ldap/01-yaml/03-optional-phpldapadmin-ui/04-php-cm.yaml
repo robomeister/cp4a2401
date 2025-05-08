@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: phpldapadmin-config
+data:
+  config.php: |
+    <?php
+
+    $servers = new Datastore();
+
+    $servers->newServer('ldap_pla');
+    $servers->setValue('server','name','Verify Directory Server');
+    $servers->setValue('server','host','ldap://verify:9389');
+    $servers->setValue('server','base',array('dc=cloudpak'));
+    $servers->setValue('login','auth_type','session');
+    $servers->setValue('login','bind_id','cn=root');
+    ?>    

@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: phpldapadmin-startup
+data:
+  startup.sh: |
+    #!/bin/bash -e
+
+    # set -x (bash debug) if log level is trace
+    # https://github.com/osixia/docker-light-baseimage/blob/stable/image/tool/log-helper
+    log-helper level eq trace && set -x
+    
+    #
+    # HTTPS config
+    #
+    if [ "${PHPLDAPADMIN_HTTPS,,}" == "true" ]; then
+
+      log-helper info "Set apache2 https config..."
+
+      # generate a certificate and key if files don't exists
+      # https://github.com/osixia/docker-light-baseimage/blob/stable/image/service-available/:ssl-tools/assets/tool/ssl-helper
+      #ssl-helper ${PHPLDAPADMIN_SSL_HELPER_PREFIX} "${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/certs/$PHPLDAPADMIN_HTTPS_CRT_FILENAME" "${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/certs/$PHPLDAPADMIN_HTTPS_KEY_FILENAME" "${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/certs/$PHPLDAPADMIN_HTTPS_CA_CRT_FILENAME"
+
+      # add CA certificat config if CA cert exists
+      #if [ -e "${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/certs/$PHPLDAPADMIN_HTTPS_CA_CRT_FILENAME" ]; then
+      #  sed -i "s/#SSLCACertificateFile/SSLCACertificateFile/g" ${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/https.conf
+      #fi
+
+      ln -sf ${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/https.conf /etc/apache2/sites-available/phpldapadmin.conf
+    #
+    # HTTP config
+    #
+    else
+      log-helper info "Set apache2 http config..."
+      ln -sf ${CONTAINER_SERVICE_DIR}/phpldapadmin/assets/apache2/http.conf /etc/apache2/sites-available/phpldapadmin.conf
+    fi
+
+    #
+    # Reverse proxy config
+    #
+    if [ "${PHPLDAPADMIN_TRUST_PROXY_SSL,,}" == "true" ]; then
+      echo 'SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on' > /etc/apache2/mods-enabled/remoteip_ssl.conf
+    fi
+
+    a2ensite phpldapadmin | log-helper debug
+
+    #
+    # phpLDAPadmin directory is empty, we use the bootstrap
+    #
+    if [ ! "$(ls -A -I lost+found /var/www/phpldapadmin)" ]; then
+
+      log-helper info "Bootstap phpLDAPadmin..."
+
+      cp -R /var/www/phpldapadmin_bootstrap/* /var/www/phpldapadmin
+      rm -rf /var/www/phpldapadmin_bootstrap
+      rm -f /var/www/phpldapadmin/config/config.php
+    fi
+
+    #copy in customized config.php
+    cp /tmp/config.php /var/www/phpldapadmin/config/config.php
+
+    # fix permissions
+    find /var/www/ -type d -exec chmod 755 {} \;
+    find /var/www/ -type f -exec chmod 644 {} \;
+    chown www-data:www-data -R /var/www
+    
+    # symlinks special (chown -R don't follow symlinks)
+    chown www-data:www-data /var/www/phpldapadmin/config/config.php
+    chmod 400 /var/www/phpldapadmin/config/config.php    
+
+    exit 0

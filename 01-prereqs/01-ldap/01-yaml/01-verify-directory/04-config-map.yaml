@@ -1,0 +1,50 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: verify
+data: 
+  config.yaml: |
+    general: 
+      ports:
+        ldap:  9389
+
+      id: verify
+
+      license:
+        key: ""
+        accept: standard
+
+      admin: 
+        dn: cn=root
+        pwd: cloudPakPassw0rd!
+
+      audit:
+        enabled: true
+        failure-only: false
+        json-format: false
+        log-to-file: true
+        operation:
+          add: true
+          bind: true
+          delete: true
+          search: true
+  
+    server:
+      replication:
+        admin:
+          dn: cn=bindUser
+          pwd: cloudPakPassw0rd!
+
+      suffixes:
+      - dn: dc=cloudpak
+        object-classes:
+        - domain
+        - top
+        attributes:
+        - dc=cloudpak
+        
+      change-log:
+        enabled: true
+        max-days: 56
+        max-entries: 99999
+        max-hours: 12

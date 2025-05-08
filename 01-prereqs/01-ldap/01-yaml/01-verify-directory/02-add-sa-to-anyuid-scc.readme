@@ -1,0 +1,19 @@
+Verify Directory requires elevated privileges in order to start, so you need to add it to the "anyuid" Security Context Constraint
+
+Type this command:
+   oc edit scc anyuid
+
+Add the isvd service account to the list of users:
+
+   users:
+   - system:serviceaccount:<namespace>:verify
+
+(Replace <namespace> with the namespace you are deploying in)
+
+Note:
+
+If users looks like this:
+   users: []
+
+delete the brackets and then add the line underneath users: as shown above
+

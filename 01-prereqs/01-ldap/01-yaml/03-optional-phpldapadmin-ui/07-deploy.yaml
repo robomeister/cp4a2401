@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpldapadmin
+  labels:
+    app: phpldapadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       app: phpldapadmin
+  template:
+    metadata:
+      labels:
+        app: phpldapadmin
+    spec:
+      containers:
+        - name: phpldapadmin
+          env:
+            - name: PHPLDAPADMIN_SERVER_PATH
+              value: "/phpldapadmin"
+            - name: PHPLDAPADMIN_HTTPS
+              value: "false"        
+          image: osixia/phpldapadmin:0.9.0
+          ports:
+            - containerPort: 80
+              name: phpldapadmin
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - name: config-volume
+              mountPath: /tmp/config.php
+              subPath: config.php
+            - name: startup-volume
+              mountPath: /container/service/phpldapadmin/startup.sh
+              subPath: startup.sh
+      volumes:
+        - name: config-volume
+          configMap:
+            name: phpldapadmin-config
+        - name: startup-volume
+          configMap:
+            name: phpldapadmin-startup
+            defaultMode: 0777              
+      serviceAccount: phpldapadmin
+      serviceAccountName: phpldapadmin

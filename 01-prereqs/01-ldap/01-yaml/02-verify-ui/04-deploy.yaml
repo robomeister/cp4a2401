@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verify-ui
+  labels:
+    app: verify-ui
+spec:
+  selector:
+    matchLabels:
+      app: verify-ui
+  template: 
+    metadata:
+      labels:
+        app: verify-ui
+    spec:
+      serviceAccountName: verify
+      containers:
+      - name: verify-ui
+        image: icr.io/isvd/verify-directory-webadmin:latest 
+        ports:
+        - containerPort: 9080
+        env:
+        - name: YAML_CONFIG_FILE
+          value: /var/isvd/config/config.yaml  
+        livenessProbe:
+          exec:
+            command:
+            - /sbin/health_check.sh 
+            - livenessProbe
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - /sbin/health_check.sh
+          initialDelaySeconds: 5
+          periodSeconds: 10 
+        livenessProbe:
+          exec:
+            command:
+            - /sbin/health_check.sh 
+            - startupProbe
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: config-volume
+          mountPath: /var/isvd/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: verify-ui

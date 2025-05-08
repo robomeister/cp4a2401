@@ -5,7 +5,7 @@ metadata:
   name: gitea
 spec:
   giteaSsl: true
-  giteaAdminUser: gitea
+  giteaAdminUser: icpadmin
   giteaAdminEmail: cloudpak@ibm.com
   giteaAdminPassword: cloudPakPassw0rd!
   giteaVolumeSize: 1Gi

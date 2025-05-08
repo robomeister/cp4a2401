@@ -1,0 +1,16 @@
+PHPLdapAdmin requires heavy privileges in order to start, so you need to add it to the "privilged" Security Context Constraint
+
+Type this command:
+   oc edit scc privileged
+
+Add the phpldapadmin service account to the list of users:
+
+   users:
+   - system:admin
+   - system:serviceaccount:openshift-infra:build-controller
+   - system:serviceaccount:<namespace>:phpldapadmin
+
+(Replace <namespace> with the namespace you are deploying in)
+
+
+This SCC may be too heavy for some environments in which case you will need to stick to the Verify UI

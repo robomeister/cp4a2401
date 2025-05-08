@@ -1,39 +1,33 @@
 version: 1
 
-dn: ou=groups,dc=cloudpak,dc=ibm
+dn: ou=groups,dc=cloudpak
 objectclass: organizationalUnit
-objectclass: top
 ou: groups
 
-dn: cn=ldap,ou=groups,dc=cloudpak,dc=ibm
-cn: ldap
-gidnumber: 500
-objectclass: posixGroup
-objectclass: top
-
-dn: ou=users,dc=cloudpak,dc=ibm
+dn: ou=users,dc=cloudpak
 objectclass: organizationalUnit
-objectclass: top
 ou: users
 
-dn: cn=icpadmin,ou=users,dc=cloudpak,dc=ibm
-cn: icpadmin
-gidnumber: 500
-givenname: icpadmin
-homedirectory: /home/users/icpadmin
-loginshell: /bin/sh
-mail: icpadmin@cloudpak.com
+dn: cn=icpadmin,ou=users,dc=cloudpak
 objectclass: inetOrgPerson
-objectclass: posixAccount
-objectclass: top
+cn: icpadmin
 sn: icpadmin
+givenname: icpadmin
+mail: icpadmin@cloudpak.com
 uid: icpadmin
-uidnumber: 1000
 userpassword: {MD5}BtkuwPO6iekobcwH+Qxnfg==
 
-
-dn: cn=admins,ou=groups,dc=cloudpak,dc=ibm
+dn: cn=admins,ou=groups,dc=cloudpak
 cn: admins
 objectclass: groupOfNames
-objectclass: top
-member: cn=icpadmin,ou=users,dc=cloudpak,dc=ibm
+member: cn=icpadmin,ou=users,dc=cloudpak
+
+dn: cn=everyone,ou=groups,dc=cloudpak
+cn: everyone
+objectclass: groupOfNames
+member: cn=icpadmin,ou=users,dc=cloudpak
+
+dn: cn=tos1admins,ou=groups,dc=cloudpak
+cn: tos1admins
+objectclass: groupOfNames
+member: cn=icpadmin,ou=users,dc=cloudpak

@@ -1,0 +1,10 @@
+version: 1
+
+
+dn: cn=Bob McKenzie,ou=users,dc=cloudpak
+cn: Bob McKenzie
+sn: McKenzie
+givenname: Bob
+mail: bob@cloudpak.com
+uid: bob@cloudpak.com
+objectclass: inetOrgPerson

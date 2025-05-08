@@ -13,4 +13,3 @@ oc create secret generic cert-tls-ibmclouddb --from-file=tls.crt=./certs/ibmclou
 oc create secret generic cert-tls-entrust --from-file=tls.crt=./certs/entrust-all.pem
 oc create secret generic cert-tls-servicenow --from-file=tls.crt=./certs/service-now-all.pem
 oc create secret generic cert-tls-digicert --from-file=tls.crt=./certs/digicert.pem
-

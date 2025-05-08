@@ -10,6 +10,7 @@ spec:
   servicesNamespace: cp4a
   size: small
   storageClass: ocs-storagecluster-ceph-rbd
+  fipsEnabled: true    
 ---
 apiVersion: operator.ibm.com/v1alpha1
 kind: OperandRequest

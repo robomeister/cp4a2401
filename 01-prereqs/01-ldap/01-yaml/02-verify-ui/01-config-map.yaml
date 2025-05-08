@@ -1,0 +1,21 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: verify-ui
+data: 
+  config.yaml: |
+    general: 
+      ports:
+        http: 9080
+
+      license:
+        key: ""
+        accept: standard        
+
+    webadmin:
+      servers:
+      - label: verify
+        host: verify
+        port: 9389
+        secure: false
+        admin-port: 0
