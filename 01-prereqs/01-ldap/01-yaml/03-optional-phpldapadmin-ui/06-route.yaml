@@ -10,5 +10,6 @@ spec:
   wildcardPolicy: None
   port:
     targetPort: phpldapadmin-ui
+  tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge

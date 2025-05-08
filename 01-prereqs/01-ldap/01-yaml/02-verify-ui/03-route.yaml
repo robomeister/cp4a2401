@@ -1,14 +1,15 @@
-apiVersion: route.openshift.io/v1
 kind: Route
+apiVersion: route.openshift.io/v1
 metadata:
   name: verify-ui
 spec:
   to:
-    kind: Service
     name: verify-ui
+    kind: Service
     weight: 100
-  wildcardPolicy: None
   port:
     targetPort: verify-ui
-    insecureEdgeTerminationPolicy: Redirect
+  tls:
     termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None      
