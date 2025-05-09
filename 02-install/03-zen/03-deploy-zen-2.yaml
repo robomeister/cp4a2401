@@ -7,7 +7,7 @@ spec:
   iamIntegration: true
   scaleConfig: small
   zenCustomRoute:
+    route_host: #replace with your cpd route hostname
     route_reencrypt: true 
-    route_secret: letsencrypt-certs
   fileStorageClass: ocs-storagecluster-cephfs
   blockStorageClass: ocs-storagecluster-ceph-rbd
