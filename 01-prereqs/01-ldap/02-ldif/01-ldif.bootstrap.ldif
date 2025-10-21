@@ -26,8 +26,3 @@ dn: cn=everyone,ou=groups,dc=cloudpak
 cn: everyone
 objectclass: groupOfNames
 member: cn=icpadmin,ou=users,dc=cloudpak
-
-dn: cn=tos1admins,ou=groups,dc=cloudpak
-cn: tos1admins
-objectclass: groupOfNames
-member: cn=icpadmin,ou=users,dc=cloudpak

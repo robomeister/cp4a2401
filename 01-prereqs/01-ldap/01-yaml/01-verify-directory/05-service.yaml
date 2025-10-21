@@ -5,8 +5,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: verify
-    port: 9389
+  - port: 9389
+    name: verify
     protocol: TCP
     targetPort: 9389
   selector:

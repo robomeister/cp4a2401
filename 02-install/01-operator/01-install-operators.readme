@@ -1,6 +1,6 @@
 
 
-git clone -b 24.0.1-IF001 https://github.com/icp4a/cert-kubernetes.git
+git clone -b 24.0.1-IF005 https://github.com/icp4a/cert-kubernetes.git
 
 cd cert-kubernetes/scripts
 

@@ -1,7 +1,6 @@
 apiVersion: zen.cpd.ibm.com/v1
 kind: ZenService
 metadata:
-  namespace: cp4a
   name: iaf-zen-cpdservice
 spec:
   iamIntegration: true

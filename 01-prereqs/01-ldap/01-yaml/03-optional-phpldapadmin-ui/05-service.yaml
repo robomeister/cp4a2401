@@ -7,9 +7,6 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: phpldapadmin-ui
-    port: 9080
-    protocol: TCP
-    targetPort: 80
+    - port: 80
   selector:
     app: phpldapadmin

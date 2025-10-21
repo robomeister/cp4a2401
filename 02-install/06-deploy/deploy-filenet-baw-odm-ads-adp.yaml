@@ -12,6 +12,10 @@ spec:
   appVersion: 24.0.1
   ibm_license: accept
   shared_configuration:
+    sc_common_service:
+      operator_namespace: cp4a
+      services_namespace: cp4a
+
     sc_deployment_type: Production
     sc_deployment_platform: OCP
     sc_deployment_context: CP4A
@@ -47,10 +51,6 @@ spec:
       sc_fast_file_storage_classname: ocs-storagecluster-cephfs
       sc_block_storage_classname: ocs-storagecluster-ceph-rbd
       
-    sc_common_service:
-      operator_namespace: cp4a
-      services_namespace: cp4a
-
     sc_audit_logging:
       enabled: false
 
@@ -64,7 +64,7 @@ spec:
    
   ldap_configuration:
     lc_selected_ldap_type: "Custom"
-    lc_ldap_server: "verify.ldap.svc.cluster.local"
+    lc_ldap_server: "verify.cp4a.svc.cluster.local"
     lc_ldap_port: "9389"
     lc_ldap_base_dn: "DC=cloudpak"
     lc_ldap_ssl_enabled: false
@@ -228,6 +228,18 @@ spec:
 
 
   bastudio_configuration:
+    custom_xml: |+    
+      <server>
+         <variable name="Security.ContentSecurityPolicyHeaderValue" value="default-src 'self';
+         frame-ancestors 'self';
+         font-src 'self' fonts.gstatic.com 1.www.s81c.com fonts.gstatic.com *.walkme.com data:;
+         frame-src * data: https: blob:;
+         img-src 'self' *.cloudfront.net *.walkme.com *.cloudfront.net s3.walkmeusercontent.com d2qhvajt3imc89.cloudfront.net data: blob:;
+         script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+         style-src 'self' 'unsafe-inline' *.walkme.com;
+         connect-src 'self' *.walkme.com wss: https:;
+         worker-src blob:; object-src *.walkme.com" />
+      </server>    
     replica_size: 1
     admin_user: icpadmin
     admin_secret_name: bas-db-secret
@@ -450,7 +462,6 @@ spec:
         oc_cpe_obj_store_workflow_blob_tbl_space: pg_default
         oc_cpe_obj_store_admin_user_groups:
         - admins
-        - tos1admins
       - oc_cpe_obj_store_display_name: BAWTOS
         oc_cpe_obj_store_symb_name: BAWTOS
         oc_cpe_obj_store_conn:
@@ -458,15 +469,14 @@ spec:
           dc_os_datasource_name: BAWTOS
           dc_os_xa_datasource_name: BAWTOSXA
         oc_cpe_obj_store_enable_workflow: true
-        oc_cpe_obj_store_workflow_admin_group: tos1admins
-        oc_cpe_obj_store_workflow_config_group: tos1admins
+        oc_cpe_obj_store_workflow_admin_group: admins
+        oc_cpe_obj_store_workflow_config_group: admins
         oc_cpe_obj_store_workflow_data_tbl_space: pg_default
         oc_cpe_obj_store_workflow_index_tbl_space: pg_default
         oc_cpe_obj_store_workflow_blob_tbl_space: pg_default
         oc_cpe_obj_store_workflow_pe_conn_point_name: pe_conn_bawtos
         oc_cpe_obj_store_admin_user_groups:
         - admins
-        - tos1admins
     ic_icn_init_info:
       icn_repos:
       - add_repo_id: devos1_repo1

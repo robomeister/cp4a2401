@@ -3,13 +3,13 @@ kind: Route
 metadata:
   name: phpldapadmin
 spec:
+  port:
+    targetPort: 80
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
   to:
     kind: Service
     name: phpldapadmin
     weight: 100
   wildcardPolicy: None
-  port:
-    targetPort: phpldapadmin-ui
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge

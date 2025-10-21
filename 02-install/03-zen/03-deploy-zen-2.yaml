@@ -1,7 +1,6 @@
 apiVersion: zen.cpd.ibm.com/v1
 kind: ZenService
 metadata:
-  namespace: cp4a
   name: iaf-zen-cpdservice
 spec:
   iamIntegration: true
@@ -10,4 +9,4 @@ spec:
     route_reencrypt: true
     route_secret: dummy-tls-cert-2      
   fileStorageClass: ocs-storagecluster-cephfs
-  blockStorageClass: ocs-storagecluster-ceph-rbd
+  blockStorageClass: ocs-storagecluster-ceph-rbd    
