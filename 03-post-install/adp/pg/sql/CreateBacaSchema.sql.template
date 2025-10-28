@@ -1,3 +1,0 @@
-\c "$tenant_db_name" ;
-
-CREATE SCHEMA IF NOT EXISTS "$tenant_ontology" ;

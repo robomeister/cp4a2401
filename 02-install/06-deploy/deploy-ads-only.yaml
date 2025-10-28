@@ -1,0 +1,120 @@
+apiVersion: icp4a.ibm.com/v1
+kind: ICP4ACluster
+metadata:
+  name: cp4a
+  labels:
+    app.kubernetes.io/instance: ibm-dba
+    app.kubernetes.io/managed-by: ibm-dba
+    app.kubernetes.io/name: ibm-dba
+    release: 24.0.1
+spec:
+  appVersion: 24.0.1
+  ibm_license: accept
+  shared_configuration:
+    sc_common_service:
+      operator_namespace: ads
+      services_namespace: ads
+
+    sc_deployment_type: Production
+    sc_deployment_platform: OCP
+    sc_deployment_ocp_platform: ROSA      
+    sc_deployment_context: CP4A
+    sc_deployment_fncm_license: production
+    sc_deployment_baw_license: production
+    sc_deployment_license: production
+    sc_deployment_profile_size: small
+    sc_image_repository: cp.icr.io
+    sc_ingress_enable: false
+
+    sc_deployment_patterns: "foundation,decisions_ads"
+    sc_optional_components: "ads_designer,ads_runtime"
+
+    image_pull_secrets:
+    - ibm-entitlement-key
+
+    sc_iam:
+      default_admin_username: cpadmin
+
+    encryption_key_secret: ibm-iaws-shared-key-secret
+    root_ca_secret: icp4a-root-ca
+
+    trusted_certificate_list: [cert-tls-ibm-github,cert-tls-letsencrypt-root,cert-tls-ibmclouddb,cert-tls-entrust,cert-tls-servicenow,cert-tls-digicert]
+
+    enable_fips: false
+
+    storage_configuration:
+      sc_slow_file_storage_classname: ocs-storagecluster-cephfs
+      sc_medium_file_storage_classname: ocs-storagecluster-cephfs
+      sc_fast_file_storage_classname: ocs-storagecluster-cephfs
+      sc_block_storage_classname: ocs-storagecluster-ceph-rbd
+      
+
+    sc_egress_configuration:
+      sc_restricted_internet_access: false
+    
+  ldap_configuration:
+    lc_selected_ldap_type: "Custom"
+    lc_ldap_server: "verify.ldap.svc.cluster.local"
+    lc_ldap_port: "9389"
+    lc_ldap_base_dn: "DC=cloudpak"
+    lc_ldap_ssl_enabled: false
+    lc_bind_secret: ldap-bind-secret
+    lc_ldap_user_name_attribute: "*:uid"
+    lc_ldap_user_display_name_attr: "cn"
+    lc_ldap_group_base_dn: "OU=groups,DC=cloudpak"
+    lc_ldap_group_name_attribute: "*:cn"
+    lc_ldap_group_display_name_attr: "cn"
+    lc_ldap_group_membership_search_filter: "(&(objectclass=groupOfNames)(member={0}))"
+    lc_ldap_group_member_id_map: "groupOfNames:member"
+    custom:
+      lc_user_filter: "(&(objectClass=inetOrgPerson)(uid=%v))"
+      lc_group_filter: "(&(objectClass=groupOfNames)(cn=%v))"
+
+  
+  datasource_configuration:
+    dc_ssl_enabled: false
+    dc_icn_datasource:
+      dc_database_type: postgresql
+      database_name: navdb
+      database_servername: pg-bastudio-db-rw
+      database_port: "5432"      
+
+
+  bastudio_configuration:
+    admin_user: icpadmin
+    admin_secret_name: bas-db-secret      
+    database:
+      type: postgresql
+      name: bastudio
+      host: pg-bastudio-db-rw
+      port: "5432"
+      ssl_enabled: false      
+    resources:
+      bastudio:
+        limits:
+          cpu: '4'
+          memory: '16Gi'
+        requests:
+          cpu: '2'
+          memory: '2Gi'
+
+#   playback_server:
+#     admin_user: icpadmin
+#     admin_secret_name: playback-server-db-secret      
+#     database:
+#     database:
+#       type: postgresql
+#       name: baspbeng
+#       host: pg-bastudio-db-rw
+#       port: "5432"
+#       enable_ssl: false        
+#     session:
+#       use_external_store: false
+
+  ads_configuration:
+    decision_designer:
+      enabled: true
+    decision_runtime:
+      enabled: true
+    mongo:
+      use_embedded: true
