@@ -38,7 +38,7 @@ spec:
     encryption_key_secret: ibm-iaws-shared-key-secret
     root_ca_secret: icp4a-root-ca
 
-    trusted_certificate_list: [cert-tls-ibm-github,cert-tls-letsencrypt-root,cert-tls-ibmclouddb,cert-tls-entrust,cert-tls-servicenow,cert-tls-digicert]
+    trusted_certificate_list: []
 
     enable_fips: false
 
@@ -73,11 +73,11 @@ spec:
   
   datasource_configuration:
     dc_ssl_enabled: false
-    dc_icn_datasource:
-      dc_database_type: postgresql
-      database_name: navdb
-      database_servername: pg-bastudio-db-rw
-      database_port: "5432"      
+  # dc_icn_datasource:
+  #   dc_database_type: postgresql
+  #   database_name: navdb
+  #   database_servername: pg-bastudio-db-rw
+  #   database_port: "5432"      
 
 
   bastudio_configuration:
@@ -97,19 +97,6 @@ spec:
         requests:
           cpu: '2'
           memory: '2Gi'
-
-#   playback_server:
-#     admin_user: icpadmin
-#     admin_secret_name: playback-server-db-secret      
-#     database:
-#     database:
-#       type: postgresql
-#       name: baspbeng
-#       host: pg-bastudio-db-rw
-#       port: "5432"
-#       enable_ssl: false        
-#     session:
-#       use_external_store: false
 
   ads_configuration:
     decision_designer:

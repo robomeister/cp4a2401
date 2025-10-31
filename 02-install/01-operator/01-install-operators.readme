@@ -37,7 +37,7 @@ APPLY THE FOLLOWING PROMPTS AS THEY APPEAR:
    Do you want to deploy CP4BA as separation of operators and operands? (Yes/No, default: No): No
 
    Where do you want to deploy Cloud Pak for Business Automation?
-   Enter the name for a new project or an existing project (namespace): cp4a
+   Enter the name for a new project or an existing project (namespace): ads
 
 
 
