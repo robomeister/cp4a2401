@@ -73,11 +73,6 @@ spec:
   
   datasource_configuration:
     dc_ssl_enabled: false
-  # dc_icn_datasource:
-  #   dc_database_type: postgresql
-  #   database_name: navdb
-  #   database_servername: pg-bastudio-db-rw
-  #   database_port: "5432"      
 
 
   bastudio_configuration:
