@@ -9,7 +9,7 @@ spec:
   operatorNamespace: ads
   servicesNamespace: ads
   size: small
-  storageClass: ocs-storagecluster-ceph-rbd
+  storageClass: ocs-external-storagecluster-ceph-rbd
 ---
 apiVersion: operator.ibm.com/v1alpha1
 kind: OperandRequest
